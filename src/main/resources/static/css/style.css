@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+h3 {
+    margin-top: 20px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+.title {
+    width: 130px;
+}
+
+.extension-item {
+    display: inline-flex;
+    padding: 5px;
+    margin: 3px 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.fixed-extensions-container {
+    display: flex;
+    align-items: center;
+}
