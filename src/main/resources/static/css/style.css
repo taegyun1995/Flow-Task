@@ -19,6 +19,14 @@ label {
     margin-top: 20px;
 }
 
+.added-items-wrapper {
+    width: 400px;
+    height: 250px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
 #custom-extension-input {
     width: 250px;
     height: 20px;
@@ -26,9 +34,22 @@ label {
     border: 1px solid black;
 }
 
+.extension-item {
+    display: inline-flex;
+    padding: 5px;
+    margin: 3px 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
 .added-button {
     all: unset;
     margin: 0 3px 0 8px;
+}
+
+#added-items-count {
+    font-size: 13px;
+    margin: 3px;
 }
 
 .fixed-extensions-container {
