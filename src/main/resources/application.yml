@@ -1,6 +1,11 @@
 spring:
   profiles:
     active: local
+  mvc:
+    static-path-pattern: /static/**
+    view:
+      prefix: /jsp
+      suffix: .jsp
 
 server:
   port: 80
