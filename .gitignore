@@ -45,3 +45,6 @@ out/
 ### Required when cloning ####
 !gradle-wrapper.jar
 !gradle-wrapper.properties
+
+### application.yml ###
+application-dev.yml
