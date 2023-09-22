@@ -15,15 +15,27 @@ label {
     width: 130px;
 }
 
-.extension-item {
-    display: inline-flex;
-    padding: 5px;
-    margin: 3px 5px;
+.added-items-container {
+    margin-top: 20px;
+}
+
+#custom-extension-input {
+    width: 250px;
+    height: 20px;
+    border-radius: 5px;
     border: 1px solid black;
-    border-radius: 10px;
+}
+
+.added-button {
+    all: unset;
+    margin: 0 3px 0 8px;
 }
 
 .fixed-extensions-container {
     display: flex;
     align-items: center;
+}
+
+.custom-extensions-container {
+    display: flex;
 }
