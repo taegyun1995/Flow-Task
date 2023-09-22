@@ -1,0 +1,43 @@
+name: flow Task & Gradle CI/CD
+
+on:
+  pull_request:
+    branches: [ "dev" ]
+
+env:
+  AWS_REGION: ap-northeast-2
+  AWS_S3_BUCKET: flowcket
+  AWS_CODE_DEPLOY_APPLICATION: flow-deploy
+  AWS_CODE_DEPLOY_GROUP: flow-deploy-group
+
+jobs:
+  build-ci-only:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: JDK 11 설치
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'corretto'
+          cache: gradle
+
+      - name: gradlew에 실행 권한 부여
+        run: chmod +x ./gradlew
+        shell: bash
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: 프로젝트 빌드
+        run: ./gradlew clean build --exclude-task test
+        shell: bash
