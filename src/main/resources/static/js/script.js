@@ -60,6 +60,12 @@ function addCustomExtension() {
     .getElementById("custom-extension-input")
     .value.trim();
 
+  if (fixedExtensions.includes(inputValue)) {
+    alert("이미 고정 확장자로 등록된 항목입니다.");
+    document.getElementById("custom-extension-input").value = "";
+    return;
+  }
+
   const regex = /^.{1,19}$/;
   if (!regex.test(inputValue)) {
     alert("확장자 이름은 20글자 미만이어야 합니다.");
