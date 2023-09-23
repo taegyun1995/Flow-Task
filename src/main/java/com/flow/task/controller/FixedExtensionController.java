@@ -18,7 +18,13 @@ public class FixedExtensionController {
 
     @PutMapping("/fix/extension/{id}/check")
     public ResponseEntity<UpdateFixedExtensionStatusResponse> checkFixedExtension(@PathVariable Long id) {
-        UpdateFixedExtensionStatusResponse response = fixedExtensionService.updateExtensionStatus(id);
+        UpdateFixedExtensionStatusResponse response = fixedExtensionService.checkExtensionStatus(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/fix/extension/{id}/uncheck")
+    public ResponseEntity<UpdateFixedExtensionStatusResponse> unCheckFixedExtension(@PathVariable Long id) {
+        UpdateFixedExtensionStatusResponse response = fixedExtensionService.unCheckExtensionStatus(id);
         return ResponseEntity.ok(response);
     }
 

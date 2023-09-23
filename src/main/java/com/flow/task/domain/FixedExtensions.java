@@ -32,4 +32,8 @@ public class FixedExtensions {
         this.status = ExtensionStatus.CHECK;
     }
 
+    public void fixedExtensionUnCheck() {
+        this.status = ExtensionStatus.UNCHECK;
+    }
+
 }

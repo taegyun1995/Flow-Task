@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.flow.task.advice.ExceptionCodeConst.NOT_FOUND_FIXED_EXTENSION;
 
 @Service
+@Transactional
 public class FixedExtensionService {
 
     private final FixedExtensionRepository fixedExtensionRepository;
@@ -19,12 +20,20 @@ public class FixedExtensionService {
         this.fixedExtensionRepository = fixedExtensionRepository;
     }
 
-    @Transactional
-    public UpdateFixedExtensionStatusResponse updateExtensionStatus(Long extensionId) {
+    public UpdateFixedExtensionStatusResponse checkExtensionStatus(Long extensionId) {
         FixedExtensions fixedExtensions = fixedExtensionRepository.findByIdAndStatus(extensionId, ExtensionStatus.UNCHECK)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_FIXED_EXTENSION));
 
         fixedExtensions.fixedExtensionCheck();
+
+        return new UpdateFixedExtensionStatusResponse(fixedExtensions.getStatus().name());
+    }
+
+    public UpdateFixedExtensionStatusResponse unCheckExtensionStatus(Long extensionId) {
+        FixedExtensions fixedExtensions = fixedExtensionRepository.findByIdAndStatus(extensionId, ExtensionStatus.CHECK)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_FIXED_EXTENSION));
+
+        fixedExtensions.fixedExtensionUnCheck();
 
         return new UpdateFixedExtensionStatusResponse(fixedExtensions.getStatus().name());
     }
