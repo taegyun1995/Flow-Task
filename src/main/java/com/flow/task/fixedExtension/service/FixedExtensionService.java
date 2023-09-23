@@ -1,10 +1,10 @@
-package com.flow.task.service;
+package com.flow.task.fixedExtension.service;
 
 import com.flow.task.advice.custom.NotFoundException;
-import com.flow.task.domain.ExtensionStatus;
-import com.flow.task.domain.FixedExtensions;
-import com.flow.task.repository.FixedExtensionRepository;
-import com.flow.task.response.UpdateFixedExtensionStatusResponse;
+import com.flow.task.fixedExtension.domain.ExtensionStatus;
+import com.flow.task.fixedExtension.domain.FixedExtensions;
+import com.flow.task.fixedExtension.repository.FixedExtensionRepository;
+import com.flow.task.fixedExtension.response.UpdateFixedExtensionStatusResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
