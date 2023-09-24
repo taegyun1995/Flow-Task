@@ -157,13 +157,11 @@ function deleteCustomExtension(extensionId) {
         url: `/custom/extension/${extensionId}/delete`,
         type: "DELETE",
         success: function(response) {
-            console.log("커스텀 확장자 삭제에 성공했습니다.", response);
             customExtensions = customExtensions.filter(ext => ext.id !== extensionId);
             displayCustomExtensions();
         },
         error: function(jqXHR) {
             const response = jqXHR.responseJSON;
-            console.error(response);
             handleServerError(response);
         }
     });
