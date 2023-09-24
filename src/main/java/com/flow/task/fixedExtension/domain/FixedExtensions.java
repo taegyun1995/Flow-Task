@@ -1,4 +1,4 @@
-package com.flow.task.domain;
+package com.flow.task.fixedExtension.domain;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,17 +16,11 @@ public class FixedExtensions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String extension;
+    @Column(name = "extension_name", unique = true, nullable = false)
+    private String extensionName;
 
     @Enumerated(EnumType.STRING)
     private ExtensionStatus status = ExtensionStatus.UNCHECK;
-
-    public FixedExtensions(Long id, String extension, ExtensionStatus status) {
-        this.id = id;
-        this.extension = extension;
-        this.status = status;
-    }
 
     public void fixedExtensionCheck() {
         this.status = ExtensionStatus.CHECK;

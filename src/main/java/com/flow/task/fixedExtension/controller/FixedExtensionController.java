@@ -1,7 +1,7 @@
-package com.flow.task.controller;
+package com.flow.task.fixedExtension.controller;
 
-import com.flow.task.response.UpdateFixedExtensionStatusResponse;
-import com.flow.task.service.FixedExtensionService;
+import com.flow.task.fixedExtension.response.UpdateFixedExtensionStatusResponse;
+import com.flow.task.fixedExtension.service.FixedExtensionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;

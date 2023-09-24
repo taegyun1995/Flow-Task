@@ -1,4 +1,4 @@
-package com.flow.task.domain;
+package com.flow.task.fixedExtension.domain;
 
 import lombok.Getter;
 
