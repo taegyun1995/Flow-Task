@@ -1,19 +1,21 @@
-const fixedExtensions = ["bat", "cmd", "com", "cpl", "exe", "src", "js"];
 const fixedExtensionsDiv = document.getElementById("fixed-extensions-items");
 const customExtensions = [];
 
-function displayFixedExtensions() {
-  fixedExtensionsDiv.innerHTML = "";
-  fixedExtensions.forEach((ext) => {
-    const label = document.createElement("label");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.value = ext;
-    checkbox.id = "fixed-" + ext;
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(" " + ext));
-    fixedExtensionsDiv.appendChild(label);
-  });
+function displayFixedExtensions(extensions) {
+    fixedExtensionsDiv.innerHTML = "";
+
+    extensions.forEach((extObj) => {
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = extObj.name;
+        if (extObj.status === "CHECK") {
+            checkbox.checked = true;
+        }
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(" " + extObj.name));
+        fixedExtensionsDiv.appendChild(label);
+    });
 }
 
 const deleteSVG = `<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>`;
@@ -87,5 +89,22 @@ function updateSelectedCount() {
   selectedCountSpan.textContent = `${customExtensions.length}/${MAX_SELECTED}`;
 }
 
-displayFixedExtensions();
 displayCustomExtensions();
+
+$(document).ready(function() {
+    fetchFixedExtensions();
+});
+
+function fetchFixedExtensions() {
+    $.ajax({
+        url: "/fixed/extensions",
+        type: "GET",
+
+        success: function(response) {
+            displayFixedExtensions(response.responseList);
+        },
+        error: function() {
+            console.error("고정 확장자 리스트를 조회하는데 실패했습니다.");
+        }
+    });
+}
