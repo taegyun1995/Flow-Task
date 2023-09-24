@@ -1,6 +1,6 @@
 package com.flow.task.fixedExtension.controller;
 
-import com.flow.task.fixedExtension.response.FixedExtensionListResponse;
+import com.flow.task.fixedExtension.response.FixedExtensionResponseList;
 import com.flow.task.fixedExtension.response.UpdateFixedExtensionStatusResponse;
 import com.flow.task.fixedExtension.service.FixedExtensionService;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +31,8 @@ public class FixedExtensionController {
     }
 
     @GetMapping("/fixed/extensions")
-    public ResponseEntity<FixedExtensionListResponse> getFixedExtensionList() {
-        FixedExtensionListResponse response = fixedExtensionService.getFixedExtensionList();
+    public ResponseEntity<FixedExtensionResponseList> getFixedExtensionList() {
+        FixedExtensionResponseList response = fixedExtensionService.getFixedExtensionList();
         return ResponseEntity.ok(response);
     }
 
