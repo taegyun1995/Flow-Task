@@ -1,6 +1,6 @@
 let fixedExtensions = [];
 const fixedExtensionsDiv = document.getElementById("fixed-extensions-items");
-const customExtensions = [];
+let customExtensions = [];
 
 function displayFixedExtensions(extensions) {
     fixedExtensionsDiv.innerHTML = "";
@@ -37,7 +37,7 @@ function displayCustomExtensions() {
     newDiv.className = "extension-item";
 
     const extName = document.createElement("span");
-    extName.textContent = ext;
+    extName.textContent = ext.name || ext;
     newDiv.appendChild(extName);
 
     const deleteBtn = document.createElement("button");
@@ -133,9 +133,25 @@ function updateExtensionStatus(id, isChecked) {
     });
 }
 
+function fetchCustomExtensions() {
+    $.ajax({
+        url: "/custom/extensions",
+        type: "GET",
+        success: function(response) {
+            customExtensions = response.responseList;
+            displayCustomExtensions();
+        },
+        error: function() {
+            console.error("커스텀 확장자 리스트를 조회하는데 실패했습니다.");
+            alert("커스텀 확장자 리스트를 조회하는데 실패했습니다.");
+        }
+    });
+}
+
 function initialize() {
     fetchFixedExtensions();
     displayCustomExtensions();
+    fetchCustomExtensions();
 }
 
 $(document).ready(initialize);
