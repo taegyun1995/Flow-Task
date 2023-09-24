@@ -4,7 +4,6 @@ let customExtensions = [];
 
 function displayFixedExtensions(extensions) {
     fixedExtensionsDiv.innerHTML = "";
-
     extensions.forEach((extObj) => {
         const label = document.createElement("label");
         const checkbox = document.createElement("input");
@@ -27,32 +26,25 @@ function displayFixedExtensions(extensions) {
 const deleteSVG = `<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>`;
 
 function displayCustomExtensions() {
-    const selectedExtensionsSpan = document.getElementById(
-    "added-items-extensions"
-    );
+    const selectedExtensionsSpan = document.getElementById("added-items-extensions");
     selectedExtensionsSpan.innerHTML = "";
-
     customExtensions.forEach((ext) => {
-    const newDiv = document.createElement("span");
-    newDiv.className = "extension-item";
+        const newDiv = document.createElement("span");
+        newDiv.className = "extension-item";
 
-    const extName = document.createElement("span");
-    extName.textContent = ext.name || ext;
-    newDiv.appendChild(extName);
+        const extName = document.createElement("span");
+        extName.textContent = ext.name || ext;
+        newDiv.appendChild(extName);
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.className = "added-button";
-    deleteBtn.innerHTML = deleteSVG;
-    deleteBtn.onclick = function () {
-        const index = customExtensions.indexOf(ext);
-        if (index > -1) {
-            customExtensions.splice(index, 1);
-        }
-        displayCustomExtensions();
-    };
-    newDiv.appendChild(deleteBtn);
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "added-button";
+        deleteBtn.innerHTML = deleteSVG;
+        deleteBtn.onclick = function () {
+            deleteCustomExtension(ext.id);
+        };
 
-    selectedExtensionsSpan.appendChild(newDiv);
+        newDiv.appendChild(deleteBtn);
+        selectedExtensionsSpan.appendChild(newDiv);
     });
     updateSelectedCount();
 }
@@ -91,13 +83,12 @@ function addCustomExtension() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(response) {
-                customExtensions.push(inputValue);
+                customExtensions.push(response.customExtensionName);
                 displayCustomExtensions();
                 document.getElementById("custom-extension-input").value = "";
             },
             error: function(jqXHR) {
                 const response = jqXHR.responseJSON;
-                console.error(response);
                 handleServerError(response);
                 document.getElementById("custom-extension-input").value = "";
             }
@@ -122,7 +113,6 @@ function fetchFixedExtensions() {
             displayFixedExtensions(fixedExtensions);
         },
         error: function() {
-            console.error("고정 확장자 리스트를 조회하는데 실패했습니다.");
             alert("고정 확장자 리스트를 조회하는데 실패했습니다.");
         }
     });
@@ -141,10 +131,8 @@ function updateExtensionStatus(id, isChecked) {
         url: endpoint,
         type: "PUT",
         success: function(response) {
-            console.log("확장자 상태 업데이트에 성공했습니다.", response);
         },
         error: function() {
-            console.error("확장자 상태 업데이트에 실패했습니다.");
             alert("확장자 상태를 변경하는데 실패했습니다.");
         }
     });
@@ -159,8 +147,24 @@ function fetchCustomExtensions() {
             displayCustomExtensions();
         },
         error: function() {
-            console.error("커스텀 확장자 리스트를 조회하는데 실패했습니다.");
             alert("커스텀 확장자 리스트를 조회하는데 실패했습니다.");
+        }
+    });
+}
+
+function deleteCustomExtension(extensionId) {
+    $.ajax({
+        url: `/custom/extension/${extensionId}/delete`,
+        type: "DELETE",
+        success: function(response) {
+            console.log("커스텀 확장자 삭제에 성공했습니다.", response);
+            customExtensions = customExtensions.filter(ext => ext.id !== extensionId);
+            displayCustomExtensions();
+        },
+        error: function(jqXHR) {
+            const response = jqXHR.responseJSON;
+            console.error(response);
+            handleServerError(response);
         }
     });
 }

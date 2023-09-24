@@ -8,7 +8,7 @@ public class flowController {
 
     @GetMapping("/flow")
     public String signup() {
-        return "/index";
+        return "index";
     }
 
 }
