@@ -2,8 +2,10 @@ package com.flow.task.customExtension.controller;
 
 import com.flow.task.customExtension.request.CreateCustomExtensionRequest;
 import com.flow.task.customExtension.response.CreateCustomExtensionResponse;
+import com.flow.task.customExtension.response.CustomExtensionResponseList;
 import com.flow.task.customExtension.response.DeleteCustomExtensionResponse;
 import com.flow.task.customExtension.service.CustomExtensionService;
+import com.flow.task.fixedExtension.response.FixedExtensionResponseList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,12 @@ public class CustomExtensionController {
     @DeleteMapping("/custom/extension/{id}/delete")
     public ResponseEntity<DeleteCustomExtensionResponse> deleteCustomExtension(@PathVariable Long id) {
         DeleteCustomExtensionResponse response = customExtensionService.deleteCustomExtension(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/custom/extensions")
+    public ResponseEntity<CustomExtensionResponseList> getCustomExtensionList() {
+        CustomExtensionResponseList response = customExtensionService.getCustomExtensionList();
         return ResponseEntity.ok(response);
     }
 

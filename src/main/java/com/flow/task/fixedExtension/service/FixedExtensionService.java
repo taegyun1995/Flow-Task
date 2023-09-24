@@ -4,7 +4,7 @@ import com.flow.task.advice.custom.NotFoundException;
 import com.flow.task.fixedExtension.domain.ExtensionStatus;
 import com.flow.task.fixedExtension.domain.FixedExtensions;
 import com.flow.task.fixedExtension.repository.FixedExtensionRepository;
-import com.flow.task.fixedExtension.response.FixedExtensionListResponse;
+import com.flow.task.fixedExtension.response.FixedExtensionResponseList;
 import com.flow.task.fixedExtension.response.FixedExtensionResponse;
 import com.flow.task.fixedExtension.response.UpdateFixedExtensionStatusResponse;
 import org.springframework.stereotype.Service;
@@ -43,13 +43,13 @@ public class FixedExtensionService {
         return new UpdateFixedExtensionStatusResponse(fixedExtensions.getStatus().name());
     }
 
-    public FixedExtensionListResponse getFixedExtensionList() {
+    public FixedExtensionResponseList getFixedExtensionList() {
         List<FixedExtensions> fixedExtensionsList = fixedExtensionRepository.findAll();
         List<FixedExtensionResponse> fixedExtensionResponseList = fixedExtensionsList.stream()
                 .map(FixedExtensionResponse::create)
                 .collect(Collectors.toList());
 
-        return new FixedExtensionListResponse(fixedExtensionResponseList);
+        return new FixedExtensionResponseList(fixedExtensionResponseList);
     }
 
 }

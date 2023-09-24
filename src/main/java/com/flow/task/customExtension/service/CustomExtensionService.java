@@ -9,9 +9,14 @@ import com.flow.task.customExtension.domain.CustomExtensions;
 import com.flow.task.customExtension.repository.CustomExtensionRepository;
 import com.flow.task.customExtension.request.CreateCustomExtensionRequest;
 import com.flow.task.customExtension.response.CreateCustomExtensionResponse;
+import com.flow.task.customExtension.response.CustomExtensionResponse;
+import com.flow.task.customExtension.response.CustomExtensionResponseList;
 import com.flow.task.customExtension.response.DeleteCustomExtensionResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -44,6 +49,15 @@ public class CustomExtensionService {
         customExtensionRepository.delete(customExtensions);
 
         return new DeleteCustomExtensionResponse(customExtensions.getExtensionName());
+    }
+
+    public CustomExtensionResponseList getCustomExtensionList() {
+        List<CustomExtensions> customExtensionsList = customExtensionRepository.findAll();
+        List<CustomExtensionResponse> customExtensionResponseList = customExtensionsList.stream()
+                .map(CustomExtensionResponse::create)
+                .collect(Collectors.toList());
+
+        return new CustomExtensionResponseList(customExtensionResponseList);
     }
 
     private void existExtensionByName(CreateCustomExtensionRequest request) {
