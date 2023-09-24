@@ -1,3 +1,4 @@
+let fixedExtensions = [];
 const fixedExtensionsDiv = document.getElementById("fixed-extensions-items");
 const customExtensions = [];
 
@@ -9,9 +10,14 @@ function displayFixedExtensions(extensions) {
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.value = extObj.name;
+
         if (extObj.status === "CHECK") {
             checkbox.checked = true;
         }
+        checkbox.addEventListener("change", function() {
+            updateExtensionStatus(extObj.id, this.checked);
+        });
+
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(" " + extObj.name));
         fixedExtensionsDiv.appendChild(label);
@@ -89,22 +95,47 @@ function updateSelectedCount() {
   selectedCountSpan.textContent = `${customExtensions.length}/${MAX_SELECTED}`;
 }
 
-displayCustomExtensions();
-
-$(document).ready(function() {
-    fetchFixedExtensions();
-});
-
 function fetchFixedExtensions() {
     $.ajax({
         url: "/fixed/extensions",
         type: "GET",
 
         success: function(response) {
-            displayFixedExtensions(response.responseList);
+            fixedExtensions = response.responseList;
+            displayFixedExtensions(fixedExtensions);
         },
         error: function() {
             console.error("고정 확장자 리스트를 조회하는데 실패했습니다.");
+            alert("고정 확장자 리스트를 조회하는데 실패했습니다.");
         }
     });
 }
+
+function updateExtensionStatus(id, isChecked) {
+    let endpoint;
+
+    if (isChecked) {
+        endpoint = `/fixed/extension/${id}/check`;
+    } else {
+        endpoint = `/fixed/extension/${id}/uncheck`;
+    }
+
+    $.ajax({
+        url: endpoint,
+        type: "PUT",
+        success: function(response) {
+            console.log("확장자 상태 업데이트에 성공했습니다.", response);
+        },
+        error: function() {
+            console.error("확장자 상태 업데이트에 실패했습니다.");
+            alert("확장자 상태를 변경하는데 실패했습니다.");
+        }
+    });
+}
+
+function initialize() {
+    fetchFixedExtensions();
+    displayCustomExtensions();
+}
+
+$(document).ready(initialize);
