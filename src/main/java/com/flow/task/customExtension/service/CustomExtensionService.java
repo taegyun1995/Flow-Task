@@ -4,10 +4,12 @@ import com.flow.task.advice.ExceptionCodeConst;
 import com.flow.task.advice.custom.AlreadyExistException;
 import com.flow.task.advice.custom.ExceededException;
 import com.flow.task.advice.custom.LengthRequiredException;
+import com.flow.task.advice.custom.NotFoundException;
 import com.flow.task.customExtension.domain.CustomExtensions;
 import com.flow.task.customExtension.repository.CustomExtensionRepository;
 import com.flow.task.customExtension.request.CreateCustomExtensionRequest;
 import com.flow.task.customExtension.response.CreateCustomExtensionResponse;
+import com.flow.task.customExtension.response.DeleteCustomExtensionResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,15 @@ public class CustomExtensionService {
         customExtensionRepository.save(customExtensions);
 
         return new CreateCustomExtensionResponse(customExtensions.getExtensionName());
+    }
+
+    public DeleteCustomExtensionResponse deleteCustomExtension(Long extensionId) {
+        CustomExtensions customExtensions = customExtensionRepository.findById(extensionId)
+                .orElseThrow(() -> new NotFoundException(ExceptionCodeConst.NOT_FOUND_CUSTOM_EXTENSION));
+
+        customExtensionRepository.delete(customExtensions);
+
+        return new DeleteCustomExtensionResponse(customExtensions.getExtensionName());
     }
 
     private void existExtensionByName(CreateCustomExtensionRequest request) {
