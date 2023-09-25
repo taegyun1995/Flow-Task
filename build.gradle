@@ -27,7 +27,7 @@ dependencies {
 	implementation 'javax.servlet:jstl'
 	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
 
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	compileOnly 'org.springframework.boot:spring-boot-starter-tomcat'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

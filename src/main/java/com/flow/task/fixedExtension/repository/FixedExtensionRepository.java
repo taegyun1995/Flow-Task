@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface FixedExtensionRepository extends JpaRepository<FixedExtensions, Long> {
 
+    Boolean existsByExtensionName(String extensionName);
+
     Optional<FixedExtensions> findByIdAndStatus(Long id, ExtensionStatus status);
 
 }
