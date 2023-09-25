@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-PROJECT_ROOT="/home/ubuntu/flow"
+PROJECT_ROOT="/home/ubuntu/flow/deploy"
 WAR_FILE="$PROJECT_ROOT/flow-0.0.1-SNAPSHOT.war"
 
 APP_LOG="$PROJECT_ROOT/application.log"
