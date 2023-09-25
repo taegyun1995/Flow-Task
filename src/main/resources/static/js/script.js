@@ -1,7 +1,9 @@
 let fixedExtensions = [];
 const fixedExtensionsDiv = document.getElementById("fixed-extensions-items");
 let customExtensions = [];
+let currentCustomExtensionSize;
 let deleteSVG;
+const MAX_SELECTED = 200;
 
 function displayFixedExtensions(extensions) {
     fixedExtensionsDiv.innerHTML = "";
@@ -38,6 +40,15 @@ loadSVGIcon(function(svgString) {
 function displayCustomExtensions() {
     const selectedExtensionsSpan = document.getElementById("added-items-extensions");
     selectedExtensionsSpan.innerHTML = "";
+
+    const currentCustomExtensionSizeDiv = document.getElementById("added-items-count");
+
+    if (currentCustomExtensionSize) {
+        currentCustomExtensionSizeDiv.textContent = `${currentCustomExtensionSize}/${MAX_SELECTED}`;
+    } else {
+        currentCustomExtensionSizeDiv.textContent = `0/${MAX_SELECTED}`;
+    }
+
     customExtensions.forEach((ext) => {
         const newDiv = document.createElement("span");
         newDiv.className = "extension-item";
@@ -49,14 +60,13 @@ function displayCustomExtensions() {
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "added-button";
         deleteBtn.innerHTML = deleteSVG;
-        deleteBtn.onclick = function () {
+        deleteBtn.onclick = function() {
             deleteCustomExtension(ext.id);
         };
 
         newDiv.appendChild(deleteBtn);
         selectedExtensionsSpan.appendChild(newDiv);
     });
-    updateSelectedCount();
 }
 
 function handleServerError(response) {
@@ -105,14 +115,6 @@ function addCustomExtension() {
             }
         });
     }
-
-}
-
-const MAX_SELECTED = 200;
-const selectedCountSpan = document.getElementById("added-items-count");
-
-function updateSelectedCount() {
-    selectedCountSpan.textContent = `${customExtensions.length}/${MAX_SELECTED}`;
 }
 
 function fetchFixedExtensions() {
@@ -157,6 +159,7 @@ function fetchCustomExtensions() {
         url: "/custom/extensions",
         type: "GET",
         success: function(response) {
+            currentCustomExtensionSize = response.currentExtensionSize;
             customExtensions = response.responseList;
             displayCustomExtensions();
         },
@@ -173,6 +176,7 @@ function deleteCustomExtension(extensionId) {
         type: "DELETE",
         success: function(response) {
             customExtensions = customExtensions.filter(ext => ext.id !== extensionId);
+            fetchCustomExtensions();
             displayCustomExtensions();
         },
         error: function(jqXHR) {

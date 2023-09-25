@@ -64,7 +64,7 @@ public class CustomExtensionService {
                 .map(CustomExtensionResponse::create)
                 .collect(Collectors.toList());
 
-        return new CustomExtensionResponseList(customExtensionResponseList);
+        return new CustomExtensionResponseList(customExtensionResponseList.size(), customExtensionResponseList);
     }
 
     private void existExtensionByName(CreateCustomExtensionRequest request) {
