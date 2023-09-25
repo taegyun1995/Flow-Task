@@ -21,7 +21,8 @@ label {
 
 .added-items-wrapper {
     width: 400px;
-    height: 250px;
+    min-height: 250px;
+    overflow-y: visible;
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 10px;
