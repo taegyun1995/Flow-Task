@@ -47,4 +47,5 @@ out/
 !gradle-wrapper.properties
 
 ### application.yml ###
-application-dev.yml
+*.yml
+!application-tmp.yml
