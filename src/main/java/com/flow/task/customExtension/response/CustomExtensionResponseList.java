@@ -10,9 +10,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomExtensionResponseList {
 
+    private int currentExtensionSize;
     private List<CustomExtensionResponse> responseList;
 
-    public CustomExtensionResponseList(List<CustomExtensionResponse> responseList) {
+    public CustomExtensionResponseList(int currentExtensionSize, List<CustomExtensionResponse> responseList) {
+        this.currentExtensionSize = currentExtensionSize;
         this.responseList = responseList;
     }
 
