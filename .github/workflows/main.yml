@@ -91,8 +91,8 @@ jobs:
         run: |
           mkdir deploy
           cp build/libs/*.war deploy/
-          cp appspec.yml deploy/ # appspec.yml를 deploy 디렉터리에 복사합니다.
-          cp -r scripts deploy/  # scripts 디렉터리를 deploy 디렉터리로 복사합니다.
+          cp appspec.yml deploy/
+          cp -r scripts deploy/
           zip -r ./$GITHUB_SHA.zip deploy/
         shell: bash
 
