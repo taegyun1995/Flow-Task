@@ -72,7 +72,7 @@ function addCustomExtension() {
 
     const inputValue = document.getElementById("custom-extension-input").value.trim();
 
-    if (fixedExtensions.includes(inputValue)) {
+    if (fixedExtensions.some(extObj => extObj.name === inputValue)) {
         alert("이미 고정 확장자로 등록된 항목입니다.");
         document.getElementById("custom-extension-input").value = "";
         return;
@@ -94,6 +94,7 @@ function addCustomExtension() {
             dataType: "json",
             success: function(response) {
                 customExtensions.push(response.customExtensionName);
+                fetchCustomExtensions();
                 displayCustomExtensions();
                 document.getElementById("custom-extension-input").value = "";
             },
@@ -104,6 +105,7 @@ function addCustomExtension() {
             }
         });
     }
+
 }
 
 const MAX_SELECTED = 200;
