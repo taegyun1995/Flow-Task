@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/ubuntu/flow/deploy"
+PROJECT_ROOT="/home/ubuntu/flow"
 WAR_FILE="$PROJECT_ROOT/flow-0.0.1-SNAPSHOT.war"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
