@@ -84,11 +84,16 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: 프로젝트 빌드
-        run: ./gradlew clean build --exclude-task test
+        run: ./gradlew clean bootWar --exclude-task test
         shell: bash
 
       - name: Make zip file
-        run: zip -r ./$GITHUB_SHA.zip .
+        run: |
+          mkdir deploy
+          cp build/libs/*.war deploy/
+          cp appspec.yml deploy/ # appspec.yml를 deploy 디렉터리에 복사합니다.
+          cp -r scripts deploy/  # scripts 디렉터리를 deploy 디렉터리로 복사합니다.
+          zip -r ./$GITHUB_SHA.zip deploy/
         shell: bash
 
       - name: AWS credential 설정
